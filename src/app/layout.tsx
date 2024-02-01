@@ -16,7 +16,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <header className="p-6 bg-slate-300 flex justify-center">
+          Weather Dashboard
+        </header>
+        {children}
+      </body>
     </html>
   );
 }

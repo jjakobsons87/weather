@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useState } from "react";
 import SearchComponent from "../components/search";
+import ForecastComponent from "../components/forecast";
+import { OneCallWeather } from "@/types/weather";
 export default function DashboardLayout({
   children, // will be a page or nested layout
 }: {
@@ -10,11 +12,11 @@ export default function DashboardLayout({
 }) {
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
-  const [data, setData] = useState<string | object | null>(null);
+  const [data, setData] = useState<OneCallWeather | "">("");
 
   return (
-    <section>
-      <header>
+    <section className="p-6">
+      <div>
         {data && (
           <div>
             <h1>
@@ -22,7 +24,7 @@ export default function DashboardLayout({
             </h1>
           </div>
         )}
-      </header>
+      </div>
       <SearchComponent
         city={city}
         state={state}
@@ -31,6 +33,7 @@ export default function DashboardLayout({
         setState={setState}
         setData={setData}
       />
+      <ForecastComponent data={data} city={city} state={state} />
       {children}
     </section>
   );

@@ -15,6 +15,8 @@ export interface CurrentWeather {
   feels_like: number;
   pressure: number;
   humidity: number;
+  dew_point: number;
+  uvi: number;
   clouds: number;
   visibility: number;
   wind_speed: number;

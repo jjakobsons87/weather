@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import SearchComponent from "../components/search";
+
 import ForecastComponent from "../components/forecast";
 import { OneCallWeather } from "@/types/weather";
+import SideNav from "../ui/dashboard/sidenav";
 export default function DashboardLayout({
   children, // will be a page or nested layout
 }: {
@@ -15,17 +16,8 @@ export default function DashboardLayout({
   const [data, setData] = useState<OneCallWeather | "">("");
 
   return (
-    <section className="p-6">
-      <div>
-        {data && (
-          <div>
-            <h1>
-              Forecast for {city}, {state}
-            </h1>
-          </div>
-        )}
-      </div>
-      <SearchComponent
+    <section className="flex h-screen flex-col md:flex-row md:overflow-hidden">
+      <SideNav
         city={city}
         state={state}
         data={data}
@@ -34,7 +26,7 @@ export default function DashboardLayout({
         setData={setData}
       />
       <ForecastComponent data={data} city={city} state={state} />
-      {children}
+      <div className="flex-grow p-6 md:overflow-y-auto md:p-12">{children}</div>
     </section>
   );
 }

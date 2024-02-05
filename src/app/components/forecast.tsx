@@ -26,16 +26,19 @@ export default function ForecastComponent(props: {
       {props.data && (
         <div>
           <h2>
-            Forecast for {props.city}, {props.state}
+            Current weather for {props.city}, {props.state}
           </h2>
           <div>{translateUnixDate(props.data.current.dt)}</div>
           <div>
-            Current Temp: {props.data.current.temp} <br />
-            Feels Like: {props.data.current.feels_like} <br />
+            Current Temp: {props.data.current.temp}°F <br />
+            Feels Like: {props.data.current.feels_like}°F <br />
+            Wind: {props.data.current.wind_speed} MPH <br />
             Sunrise: {translateUnixTime(props.data.current.sunrise)} <br />
             Sunset: {translateUnixTime(props.data.current.sunset)} <br />
+            UVI: {props.data.current.uvi} <br />
           </div>
-          {/* <Image src={currentIcon} alt="Weather Icon" width={50} height={50} /> */}
+          {/* placeholder for weather icon */}
+          <img src={currentIcon} alt="Weather Icon" width={50} height={50} />
         </div>
       )}
     </div>

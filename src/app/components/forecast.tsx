@@ -1,6 +1,8 @@
 import { OneCallWeather } from "@/types/weather";
 import getWeather from "../api/route";
 import Image from "next/image";
+import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
+import WeatherCard from "./weatherCard";
 
 export default function ForecastComponent(props: {
   data: OneCallWeather;
@@ -9,7 +11,8 @@ export default function ForecastComponent(props: {
 }) {
   function translateUnixTime(unixTimeStamp: number) {
     const myDate = new Date(unixTimeStamp * 1000);
-    return myDate.toTimeString();
+    const result = myDate.toTimeString().slice(0, 5);
+    return result;
   }
   function translateUnixDate(unixTimeStamp: number) {
     const myDate = new Date(unixTimeStamp * 1000);
@@ -25,6 +28,12 @@ export default function ForecastComponent(props: {
     <div>
       {props.data && (
         <div>
+          <WeatherCard
+            header={`${props.city}, ${props.state} as of ${""}
+          ${translateUnixTime(props.data.current.dt)}`}
+            body={`${props.data.current.temp}`}
+            footer={`H: ${props.data.daily[0].temp.max} L: ${props.data.daily[0].temp.min}`}
+          />
           <h2>
             Current weather for {props.city}, {props.state}
           </h2>

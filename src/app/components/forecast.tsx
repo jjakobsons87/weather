@@ -11,9 +11,28 @@ export default function ForecastComponent(props: {
 }) {
   function translateUnixTime(unixTimeStamp: number) {
     const myDate = new Date(unixTimeStamp * 1000);
-    const result = myDate.toTimeString().slice(0, 5);
-    return result;
+    let time: string | Array = myDate.toTimeString().slice(0, 5);
+
+    time = time.split(":");
+
+    let hours = Number(time[0]);
+    let minutes = Number(time[1]);
+
+    let timeValue;
+    if (hours > 0 && hours <= 12) {
+      timeValue = "" + hours;
+    } else if (hours > 12) {
+      timeValue = "" + (hours - 12);
+    } else if (hours == 0) {
+      timeValue = "12";
+    }
+
+    timeValue += minutes < 10 ? ":0" + minutes : ":" + minutes; // get minutes
+    timeValue += hours >= 12 ? " P.M." : " A.M."; // get AM/PM
+
+    return timeValue;
   }
+
   function translateUnixDate(unixTimeStamp: number) {
     const myDate = new Date(unixTimeStamp * 1000);
     return myDate.toDateString();
@@ -34,6 +53,7 @@ export default function ForecastComponent(props: {
             body={`${props.data.current.temp}`}
             footer={`H: ${props.data.daily[0].temp.max} L: ${props.data.daily[0].temp.min}`}
           />
+          <WeatherCard header={`Feels Like`} />
           <h2>
             Current weather for {props.city}, {props.state}
           </h2>

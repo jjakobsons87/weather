@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
+import MainApp from "./components/main";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,10 +20,14 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Providers>
-          <header className="p-6 bg-slate-300 flex justify-center">
-            Weather Dashboard
-          </header>
+          <MainApp />
           {children}
+          <footer>
+            Icons by{" "}
+            <a target="_blank" href="https://icons8.com" className="underline">
+              Icons8
+            </a>
+          </footer>
         </Providers>
       </body>
     </html>

@@ -1,13 +1,12 @@
 import { OneCallWeather } from "@/types/weather";
 import getWeather from "../api/route";
-import Image from "next/image";
-import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
 import WeatherCard from "./weatherCard";
 
-export default function ForecastComponent(props: {
+export default async function ForecastComponent(props: {
   data: OneCallWeather;
   city: string;
   state: string;
+  setData: React.Dispatch<React.SetStateAction<OneCallWeather | "">>;
 }) {
   function translateUnixTime(unixTimeStamp: number) {
     const myDate = new Date(unixTimeStamp * 1000);
@@ -37,39 +36,52 @@ export default function ForecastComponent(props: {
     const myDate = new Date(unixTimeStamp * 1000);
     return myDate.toDateString();
   }
-  const currentIcon =
-    props.data &&
-    "https://openweathermap.org/img/wn/" +
-      props.data.current.weather[0].icon +
-      "@2x.png";
+  // const currentIcon =
+  //   props.data &&
+  //   "https://openweathermap.org/img/wn/" +
+  //     props.data.current.weather[0].icon +
+  //     "@2x.png";
 
   return (
-    <div>
-      {props.data && (
-        <div>
-          <WeatherCard
-            header={`${props.city}, ${props.state} as of ${""}
+    <div className="p-6">
+      <div className="gap-2 grid grid-cols-2">
+        <WeatherCard
+          header={`${props.city}, ${props.state} as of ${""}
           ${translateUnixTime(props.data.current.dt)}`}
-            body={`${props.data.current.temp}`}
-            footer={`H: ${props.data.daily[0].temp.max} L: ${props.data.daily[0].temp.min}`}
-          />
-          <WeatherCard header={`Feels Like`} />
-          <h2>
-            Current weather for {props.city}, {props.state}
-          </h2>
-          <div>{translateUnixDate(props.data.current.dt)}</div>
-          <div>
-            Current Temp: {props.data.current.temp}°F <br />
-            Feels Like: {props.data.current.feels_like}°F <br />
-            Wind: {props.data.current.wind_speed} MPH <br />
-            Sunrise: {translateUnixTime(props.data.current.sunrise)} <br />
-            Sunset: {translateUnixTime(props.data.current.sunset)} <br />
-            UVI: {props.data.current.uvi} <br />
-          </div>
-          {/* placeholder for weather icon */}
-          <img src={currentIcon} alt="Weather Icon" width={50} height={50} />
-        </div>
-      )}
+          body={`${props.data.current.temp}°`}
+          footer={`H: ${props.data.daily[0].temp.max}° L: ${props.data.daily[0].temp.min}°`}
+          className="col-span-2"
+        />
+        <WeatherCard
+          header="Feels Like"
+          body={`${props.data.current.feels_like}°`}
+        />
+        <WeatherCard
+          header="Humidity"
+          body={`${props.data.current.humidity}%`}
+        />
+        <WeatherCard
+          header="Visibility"
+          body={`${props.data.current.visibility} miles`}
+        />
+        <WeatherCard header="UV Index" body={`${props.data.current.uvi}`} />
+        <WeatherCard header="Wind" body={`${props.data.current.wind_speed}`} />
+        {/* combine sunrise/set into one card - have it be dependent on time of day when it shows what  */}
+        <WeatherCard
+          header="Sunrise"
+          body={`${translateUnixTime(props.data.current.sunrise)}`}
+        />
+        <WeatherCard
+          header="Sunset"
+          body={`${translateUnixTime(props.data.current.sunset)}`}
+        />
+        <WeatherCard
+          header="Pressure"
+          body={`${props.data.current.pressure}`}
+        />
+        {/* placeholder for weather icon */}
+        {/* <img src={currentIcon} alt="Weather Icon" width={50} height={50} /> */}
+      </div>
     </div>
   );
 }
